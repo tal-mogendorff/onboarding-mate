@@ -1,0 +1,56 @@
+{
+  "tools": [
+    {
+      "name": "onboarding_mate",
+      "source": null,
+      "alias": null,
+      "description": "Onboard a new organization to Kubiya",
+      "type": "docker",
+      "content": "curl -X POST https://api.kubiya.ai/api/v1/onboard   -H \"Authorization: UserKey ${KUBIYA_API_KEY}\"   -H \"Content-Type: application/json\"   -d '{\n    \"org_name\": \"'\"${org_name}\"'\",\n    \"admin_email\": \"'\"${admin_email}\"'\"\n  }'",
+      "content_url": null,
+      "args": [
+        {
+          "name": "org_name",
+          "type": "string",
+          "description": "The name of the organization",
+          "required": true,
+          "default": null,
+          "options": null,
+          "options_from": null
+        },
+        {
+          "name": "admin_email",
+          "type": "string",
+          "description": "The email of the organization admin",
+          "required": true,
+          "default": null,
+          "options": null,
+          "options_from": null
+        }
+      ],
+      "env": [],
+      "secrets": [
+        "KUBIYA_API_KEY"
+      ],
+      "dependencies": null,
+      "dependencies_url": null,
+      "openapi": null,
+      "with_files": [],
+      "with_services": [],
+      "with_git_repo": null,
+      "with_volumes": [],
+      "entrypoint": [],
+      "icon_url": null,
+      "image": "alpine/curl",
+      "long_running": false,
+      "on_start": null,
+      "on_build": null,
+      "on_complete": null,
+      "mermaid": "graph TD\n    %% Styles\n    classDef triggerClass fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px,font-weight:bold\n    classDef paramClass fill:#2ecc71,color:#fff,stroke:#27ae60,stroke-width:2px\n    classDef execClass fill:#e74c3c,color:#fff,stroke:#c0392b,stroke-width:2px,font-weight:bold\n    classDef envClass fill:#f39c12,color:#fff,stroke:#f1c40f,stroke-width:2px\n\n    %% Main Components\n    Trigger(\"Trigger\"):::triggerClass\n    Params(\"Parameters\"):::paramClass\n    Exec(\"onboarding_mate\"):::execClass\n    Env(\"Environment\"):::envClass\n\n    %% Flow\n    Trigger --> Params --> Exec\n    Env --> Exec\n\n    %% Trigger Options\n    User(\"User\")\n    API(\"API\")\n    Webhook(\"Webhook\")\n    Cron(\"Scheduled\")\n    User --> Trigger\n    API --> Trigger\n    Webhook --> Trigger\n    Cron --> Trigger\n\n    %% Parameters\n    subgraph Parameters[\"Parameters\"]\n        direction TB\n        Param0(\"org_name (Required)<br/>The name of the organization<br/>Type: string\"):::paramClass\n        Param1(\"admin_email (Required)<br/>The email of the organization admin<br/>Type: string\"):::paramClass\n    end\n    Parameters --- Params\n\n    %% Execution\n    subgraph Execution[\"Execution\"]\n        direction TB\n        Code(\"Script: curl -X POST https://api.kubiya.ai/api/v1/onboard ...\")\n        Type(\"Type: Docker\")\n        Image(\"Docker Image: alpine/curl\")\n    end\n    Execution --- Exec\n\n    %% Environment\n    subgraph Environment[\"Environment\"]\n        direction TB\n        Secrets(\"Secrets:<br/>KUBIYA_API_KEY\"):::envClass\n    end\n    Environment --- Env\n\n    %% Context Note\n    ContextNote(\"Parameter values can be<br/>fetched from context<br/>based on the trigger\")\n    ContextNote -.-> Params",
+      "workflow": false,
+      "metadata": {}
+    }
+  ],
+  "errors": [],
+  "python_bundle_version": "3.12.0"
+}
